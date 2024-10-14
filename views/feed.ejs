@@ -1,0 +1,15 @@
+<% include ./partials/header.ejs %>
+<div class="w-full h-full bg-zinc-800 px-6 py-8 text-white overflow-x-hidden">
+    <div class="cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-14">
+        <% posts.forEach(function(elem){%>
+            <div class="card transition-transform transform hover:scale-105">
+                <div class="w-full h-44 sm:h-56 md:h-64 lg:h-72 bg-sky-300 rounded-lg overflow-hidden shadow-lg hover:shadow-xl">
+                    <img class="w-full h-full object-cover" src="/images/uploads/<%= elem.image %>" alt="<%= elem.title %>" srcset="">
+                </div>
+                <h5 class="mt-3 text-lg font-semibold text-center hover:text-sky-300 transition-colors"><%= elem.title %></h5>
+                <h6 class="text-sm text-center text-gray-300 opacity-75">@<%= elem.user.username %></h6>
+            </div>
+        <% }) %>       
+    </div>
+</div>
+<% include ./partials/footer.ejs %>
