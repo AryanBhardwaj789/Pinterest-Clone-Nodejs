@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const expressSession = require('express-session');
+const fetch = require('node-fetch');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -30,7 +31,6 @@ app.use(passport.session());
 passport.serializeUser(usersRouter.serializeUser());
 passport.deserializeUser(usersRouter.deserializeUser());
 
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -49,5 +49,23 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// Keep-alive script
+const KEEP_ALIVE_INTERVAL = 10 * 60 * 1000;
+const KEEP_ALIVE_URL = 'https://pinterest-clone-nodejs.onrender.com/';
+
+setInterval(() => {
+  fetch(KEEP_ALIVE_URL)
+    .then(res => {
+      if (!res.ok) {
+        console.error('Keep-alive request failed:', res.statusText);
+      } else {
+        console.log('Keep-alive request successful:', res.status);
+      }
+    })
+    .catch(err => {
+      console.error('Error in keep-alive request:', err);
+    });
+}, KEEP_ALIVE_INTERVAL);
 
 module.exports = app;
